@@ -112,6 +112,7 @@ def move_mail_data_by_page(page,pages):
     cursor.execute("select * from t_mail limit %s,%s",[(page - 1) * pages ,pages])
     rows = cursor.fetchall()
     for item in rows:
+        mailId = item['id']
         mailTitle = item['mailTitle']
         mailContent = item['mailContent']
         sendTime = item['sendTime']
@@ -123,15 +124,17 @@ def move_mail_data_by_page(page,pages):
         timeStamp = int(time.mktime(timeArray))*1000
 
         type = mailType.get(mailTitle)
+        if mailId is None:
+            continue
         if type is None:
             type=2
-
+        if mailStatus is None:
+            mailStatus = 3
         cursor.execute("insert into t_user_message(type,userId,title,contentHtml,content,status,sendId,createTime,actionTime,data) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                        [type,reciver,mailTitle,mailContent,mailContent,mailStatus,sender,timeStamp,timeStamp,borrowId])
 
     conn.commit()
     cursor.close()
-
     conn.close()
 
 def move_mail_by_page():
