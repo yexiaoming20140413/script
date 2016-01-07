@@ -18,7 +18,7 @@ var pool = mysql.createPool(dbconfig);
 var addressList = [];
 var totalCount = 0;
 var currPage = -1;
-var pageCount = 20;
+var pageCount = 2000;
 var i = 0;
 pool.getConnection(function (err, connection) {
     if (err) {
