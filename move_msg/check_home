@@ -50,7 +50,7 @@ def check_user_by_page():
     print "user count:"+str(count)
     pageSize = 2000
     pages = count/pageSize+2
-    print "message pages:"+str(pages)
+    print "user pages:"+str(pages)
     for page in range(1,pages):
         check_user_home_by_page(page,pageSize)
     result ="";
@@ -59,7 +59,7 @@ def check_user_by_page():
         result += result1
         result+="\r\n"
     print result
-    filename ='/home/longdai_stat_home.txt'
+    filename ='/home/xiaoming/longdai_stat_home.txt'
     file = open(filename,'w')
     try:
         file.write(result)
