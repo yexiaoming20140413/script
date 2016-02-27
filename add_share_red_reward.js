@@ -56,7 +56,7 @@ function add_share_red_reward(phone, callback) {
                 });
             },
             function (userId, next) {
-                var sql = 'select id,investTime from t_invest where investor = ? order by id desc limit 3';
+                var sql = 'select id,investTime from t_invest where investor = ? order by investTime desc limit 3';
                 connection.query(sql, userId, function (err, data) {
                     if(err) return next(err);
                     if(data && data.length > 0){
