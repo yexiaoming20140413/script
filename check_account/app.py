@@ -2,8 +2,11 @@
 # _*_ coding: utf-8
 
 import csv
+import httplib
 import sys
 import datetime
+import urllib
+
 import MySQLdb
 import MySQLdb.cursors
 import paramiko
@@ -36,28 +39,48 @@ def check_account(orderList):
 
         if cursor.rowcount == 0:
             logger.error('订单号:%s, 金额:%s 交易异常,龙贷订单号不存在!' % (order['orderId'], order['money']))
+            sendAlarmMsg('订单号:%s, 金额:%s 交易异常,龙贷订单号不存在!' % (order['orderId'], order['money']))
             continue
 
         if rows[0]['state'] == 1:
             if order['result'] != '0':
                 logger.error('连连支付 交易状态异常!!! 狙击手准备!')
                 flag = 1
+                sendAlarmMsg('连连支付 交易状态异常!!! 狙击手准备!')
 
             if order['status'] != '0':
                 logger.error('钱没有到账,龙贷账户竟然成功了!')
                 flag = 1
+                sendAlarmMsg('钱没有到账,龙贷账户竟然成功了!')
 
         if money != rows[0]['money']:
             logger.error('我次奥金额不相等!!!!!!!!!!!!')
             flag = 1
-
+            sendAlarmMsg('我次奥金额不相等!!!!!!!!!!!!')
         if flag == 0 :
             logger.debug('订单号:%s, 金额:%s 交易正常!' % (order['orderId'] , order['money']))
         else:
             logger.error('订单号:%s, 金额:%s 交易异常!' % (order['orderId'] , order['money']))
+            sendAlarmMsg('订单号:%s, 金额:%s 交易异常!' % (order['orderId'] , order['money']))
 
     cursor.close()
     conn.close()
+
+def sendAlarmMsg(content):
+    httpClient = None
+    try:
+        params = urllib.urlencode({'content': content,'key':'you_can_you_up_no_can_no_bb'})
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        httpClient = httplib.HTTPConnection("api.longdai.com")
+        httpClient.request("POST", "/api/alarm/weixin", params, headers)
+        response = httpClient.getresponse()
+        print response.status
+        print response.reason
+        print response.read()
+    except Exception, e:
+        print e
+    finally:
+        httpClient.close()
 
 def parse_account(date):
     '''
