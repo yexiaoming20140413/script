@@ -1,4 +1,5 @@
 # _*_ coding: utf-8
+#迁移t_mail表数据插入t_user_message表
 import dbConn
 import time
 

@@ -1,4 +1,5 @@
 # _*_ coding: utf-8
+#统计全国注册用户分布
 import os
 
 import dbConn

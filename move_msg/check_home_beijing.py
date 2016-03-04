@@ -1,4 +1,5 @@
 # _*_ coding: utf-8
+#输出北京地区的注册用户手机号
 import os
 
 import dbConn
