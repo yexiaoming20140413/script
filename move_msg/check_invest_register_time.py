@@ -17,11 +17,13 @@ def get_invest_user_phone():
         phone = item['mobilePhone']
         createTime = item['createTime']
         userId = item['id']
-        cursor.execute("select recordTime from t_fundrecord where userId=%s limit 1",[userId])
+        cursor.execute("select recordTime from t_fundrecord where operatetype in (653,726,901 ) and userId=%s limit 1",[userId])
         rows1 = cursor.fetchall();
         for item1 in rows1:
             recordTime = item1['recordTime']
         if phone is None:
+            continue
+        if recordTime is None:
             continue
         if len(phone) != 11:
             continue
