@@ -10,13 +10,13 @@ home_type={}
 def get_invest_user_phone():
     conn = dbConn.get_db_conn()
     cursor = conn.cursor()
-    cursor.execute("select a.userid,b.mobilePhone,b.createTime from (select distinct userid from t_fundrecord where operatetype in (653,726,901 ) and userid is not null) a,t_user b where a.userid=b.id")
+    cursor.execute("select id,mobilePhone,createTime from t_user where source like '%sm%' ")
     rows = cursor.fetchall()
     result=''
     for item in rows:
         phone = item['mobilePhone']
         createTime = item['createTime']
-        userId = item['userid']
+        userId = item['id']
         cursor.execute("select recordTime from t_fundrecord where userId=%s limit 1",[userId])
         rows1 = cursor.fetchall();
         for item1 in rows1:
