@@ -31,7 +31,7 @@ def check_user_by_page():
     result =''
     result+=get_invest_user_phone()
     print "result:" + result
-    filename ='/home/xiaoming/longdai_state_invest_phone.txt'
+    filename ='/home/xxxx/state_invest_phone.txt'
     file = open(filename,'w')
     try:
         file.write(result)
