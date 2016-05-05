@@ -10,7 +10,7 @@ home_type={}
 def get_invest_user_phone():
     conn = dbConn.get_db_conn()
     cursor = conn.cursor()
-    cursor.execute("select a.userid,b.mobilePhone from (select distinct userid from t_fundrecord where operatetype in (653,726,901 ) and userid is not null) a,t_user b where a.userid=b.id")
+    cursor.execute("xxxx")
     rows = cursor.fetchall()
     result=''
     for item in rows:
